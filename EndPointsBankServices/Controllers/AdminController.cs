@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EndPointsBankServices.Models;
+using EndPointsBankServices.DBConnections;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EndPointsBankServices.Helpers;
 
 namespace EndPointsBankServices.Controllers
 {
@@ -10,33 +14,48 @@ namespace EndPointsBankServices.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        // GET api/values
+        // GET: api/AdminC:\Users\aovna\source\repos\BankServicesApi.Solution\BankServices.Api\Program.cs
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "fellow", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET: api/Admin/5
+        [HttpGet("{id}", Name = "Getname")]
+        public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/values
+        // POST: api/Admin
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post([FromBody] AdminInfo adminInfo)
         {
+            return AdminDBConnection.AdminSignUpDB(adminInfo);
         }
 
-        // PUT api/values/5
+        // POST: api/Admin/login
+        [HttpPost("login")]
+        public string Post([FromBody] AdminSignIn logindetails)
+        {
+            return AdminDBConnection.SignIn(logindetails);
+        }
+
+        //POST: api/Admin/createcustomer
+        [HttpPost("createcustomer")]
+        public string Post([FromBody] CstInfo cstInfo)
+        {
+            return AdminDBConnection.CstCreateAcct(cstInfo);
+        }
+
+        // PUT: api/Admin/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
